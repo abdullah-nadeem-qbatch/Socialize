@@ -10,5 +10,8 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('likepost/<slug:pk>', views.likePost, name='likepost'),
     path('unlike/<slug:pk>', views.unlike, name='unlike'),
-    path('commentpost/<slug:pk>', views.commentPost, name='commentpost')
+    path('commentpost/<slug:pk>', views.commentPost, name='commentpost'),
+    path('addcomment/<slug:pk>', views.addComment, name='addcomment'),
+    path('showaddcomment/<slug:pk>', views.showAddComment, name='showaddcomment'),
+    path('deletecomment/<slug:pk>', views.deleteComment, name='deletecomment'),
 ]

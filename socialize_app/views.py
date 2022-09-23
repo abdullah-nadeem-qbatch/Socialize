@@ -40,14 +40,14 @@ def signIn(request):
 
 def profile(request):
     current_user = request.user
-    pk1 = current_user
+    #pk1 = current_user
     #print(pk1)
-    return render(request, 'registration/profile.html',{'user': pk1})
+    return render(request, 'registration/profile.html',{'user': current_user})
 
 
 def home(request):
     pst = Post.objects.all()
-    print(pst)
+    #print(pst)
     return render(request, 'home.html', {'post':pst})
 
 
@@ -82,36 +82,41 @@ def uploadPost(request):
 
 
 def likePost(request, pk):
-
-
-    #username = request.user.username
-    #post_id = request.GET.get('post_id')
-
     post = Post.objects.get(id = pk)
-    #likes = post.noOfLikes
     post.noOfLikes = post.noOfLikes + 1
     post.save()
-    #print(likes)
     return redirect('/home')
 
 def unlike(request, pk):
-
-
-    #username = request.user.username
-    #post_id = request.GET.get('post_id')
-
     post = Post.objects.get(id = pk)
-    #likes = post.noOfLikes
     post.noOfLikes = post.noOfLikes - 1
     if post.noOfLikes < 0:
         post.noOfLikes = 0
     post.save()
-    #print(likes)
     return redirect('/home')
 
 
 def commentPost(request, pk):
     post = Post.objects.get(id = pk)
-    #comment = Comment.objects.create(post = post, commentContent = content)
-    return HttpResponse('comments section')
+    comment = post.comment_set.all()
+    #print(comment.values())
+    context = {'post': post, 'comment': comment}
+    return render(request, 'postthread.html', context)
 
+def showAddComment(request, pk):
+    post = Post.objects.get(id = pk)
+    content = {'post':post}
+    return render(request, 'addcomment.html', content)
+
+
+def addComment(request, pk):
+    commentContent = request.POST['comment']
+    pst = Post.objects.get(id = pk)
+    cmt = Comment.objects.create(post = pst, commentContent = commentContent)
+    comment = Comment.objects.filter(post = pst)
+    
+    #print(commentContent)
+    return render(request, 'postthread.html', {'comment':comment, 'post':pst})
+
+def deleteComment(request):
+    return HttpResponse('hello')

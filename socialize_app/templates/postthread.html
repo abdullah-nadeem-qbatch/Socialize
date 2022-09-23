@@ -54,20 +54,46 @@
       <th>User</th>
       <th>Post Content</th>
       <th>Post Time</th>
-      <th>Action</th>
+      <th>Like</th>
+      <th>Unlike</th>
       <th>Number of Likes</th>
-      <th>Details</th>
+      <th>Comment Options</th>
     </tr>
-    
+
     <tr>
-      <td>{{post.user}}</td>
-      <td>{{post.postContent}}</td>
-      <td>{{post.postTime}}</td>
-      <td><a href='{% url "likepost" post.id %}'>Like</a></td>
-      <td>{{post.noOfLikes}}</td>
-      <td><a href='{% url "commentpost" post.id %}'>Details</a></td>
+        <td>{{post.user}}</td>
+        <td>{{post.postContent}}</td>
+        <td>{{post.postTime}}</td>
+        <td><a href='{% url "likepost" post.id %}'>Like</a></td>
+        <td><a href='{% url "unlike" post.id %}'>Unlike</a></td>
+        <td>{{post.noOfLikes}}</td>
+        <td><a href='{% url "showaddcomment" post.id %}'>Add Comment</a></td>
     </tr>
-  </table>
+</table>
+<br>
+<table>
+    <tr>
+      <th>User</th>
+      <th>Comment Content</th>
+      <th>Comment Time</th>
+      <th>Like</th>
+      <th>Unlike</th>
+      <th>Number of Likes</th>
+      <th>Comment Options</th>
+    </tr>
+    {% for comment in comment %}
+    <tr>
+        <td>{{comment.user}}</td>
+        <td>{{comment.commentContent}}</td>
+        <td>{{comment.commentTime}}</td>
+        <td><a href='{% url "likepost" post.id %}'>Like</a></td>
+        <td><a href='{% url "unlike" post.id %}'>Unlike</a></td>
+        <td>{{post.noOfLikes}}</td>
+        <td><a href='{% url "deletecomment" post.id %}'>Delete Comment</a></td>
+      </tr>
+    
+      {% endfor %}
+    </table>
   <!--  <div class="container">
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="uname" required>
